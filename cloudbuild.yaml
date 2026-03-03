@@ -5,7 +5,11 @@ options:
 
 steps:
   - name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "us-central1-docker.pkg.dev/project-ec71bfb1-d784-43f4-838/engineai/fice:latest", "."]
+    args:
+      - "build"
+      - "-t"
+      - "us-central1-docker.pkg.dev/project-ec71bfb1-d784-43f4-838/engineai/fice:latest"
+      - "."
 
 images:
   - "us-central1-docker.pkg.dev/project-ec71bfb1-d784-43f4-838/engineai/fice:latest"
