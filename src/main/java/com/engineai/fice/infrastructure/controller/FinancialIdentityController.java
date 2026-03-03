@@ -5,6 +5,8 @@ import com.engineai.fice.domain.model.FinancialIdentity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Map;
+import org.springframework.security.core.Authentication;
 
 @RestController
 @RequestMapping("/financial-identity")
@@ -35,13 +37,25 @@ public class FinancialIdentityController {
         return service.getByUserId(userId);
     }
 
-    @PutMapping("/{userId}")
+    @GetMapping
+    public Map<String, Object> ping(Authentication auth) {
+        return Map.of(
+                "ok", true,
+                "principal", auth != null ? auth.getName() : null
+        );
+    }
+    @PutMapping("/{id}")
     public ResponseEntity<FinancialIdentity> update(
-            @PathVariable Long userId,
-            @RequestBody FinancialIdentity updatedData
+            @PathVariable Long id,
+            @RequestBody UpdateFinancialIdentityRequest request
     ) {
-        FinancialIdentity updated = service.update(userId, updatedData);
+        FinancialIdentity updated = service.update(
+                id,
+                request.getIncomeType(),
+                request.getIncomeStabilityScore(),
+                request.getRiskTolerance(),
+                request.getDecisionStyle()
+        );
         return ResponseEntity.ok(updated);
     }
-
 }

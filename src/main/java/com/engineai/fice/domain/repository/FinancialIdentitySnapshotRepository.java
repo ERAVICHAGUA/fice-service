@@ -8,5 +8,5 @@ import java.util.List;
 public interface FinancialIdentitySnapshotRepository
         extends JpaRepository<FinancialIdentitySnapshot, Long> {
 
-    List<FinancialIdentitySnapshot> findByFinancialIdentityId(Long financialIdentityId);
+    List<FinancialIdentitySnapshot> findByFinancialIdentityIdOrderByCreatedAtDesc(Long financialIdentityId);
 }

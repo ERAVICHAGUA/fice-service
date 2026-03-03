@@ -3,7 +3,6 @@ package com.engineai.fice.application.service;
 import com.engineai.fice.domain.model.FinancialIdentity;
 import com.engineai.fice.domain.repository.FinancialIdentityRepository;
 import org.springframework.stereotype.Service;
-import com.engineai.fice.application.service.FinancialIdentitySnapshotService;
 
 import java.time.LocalDateTime;
 
@@ -51,15 +50,21 @@ public class FinancialIdentityService {
                         new RuntimeException("Financial identity not found for user"));
     }
 
-    public FinancialIdentity update(Long id, FinancialIdentity data) {
+    public FinancialIdentity update(
+            Long id,
+            String incomeType,
+            int incomeStabilityScore,
+            String riskTolerance,
+            String decisionStyle
+    ) {
 
         FinancialIdentity existing = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Financial identity not found"));
 
-        existing.setIncomeType(data.getIncomeType());
-        existing.setIncomeStabilityScore(data.getIncomeStabilityScore());
-        existing.setRiskTolerance(data.getRiskTolerance());
-        existing.setDecisionStyle(data.getDecisionStyle());
+        existing.setIncomeType(incomeType);
+        existing.setIncomeStabilityScore(incomeStabilityScore);
+        existing.setRiskTolerance(riskTolerance);
+        existing.setDecisionStyle(decisionStyle);
         existing.setLastUpdated(LocalDateTime.now());
 
         FinancialIdentity updated = repository.save(existing);
@@ -67,7 +72,5 @@ public class FinancialIdentityService {
         snapshotService.createSnapshot(updated, "UPDATED");
 
         return updated;
-
     }
-
 }
