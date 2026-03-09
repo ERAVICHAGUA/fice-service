@@ -47,7 +47,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     .getBody();
 
             String email = claims.getSubject();
-            var auth = new UsernamePasswordAuthenticationToken(email, null, List.of());
+            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+                    email,
+                    null,
+                    List.of() // Aquí podrías mapear roles si los tuvieras
+            );
+            auth.setDetails(new org.springframework.security.web.authentication.WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(auth);
 
         } catch (Exception e) {
