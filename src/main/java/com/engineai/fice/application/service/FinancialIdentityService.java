@@ -50,16 +50,17 @@ public class FinancialIdentityService {
                         new RuntimeException("Financial identity not found for user"));
     }
 
-    public FinancialIdentity update(
-            Long id,
+    public FinancialIdentity updateByUserId(
+            Long userId,
             String incomeType,
             int incomeStabilityScore,
             String riskTolerance,
             String decisionStyle
     ) {
 
-        FinancialIdentity existing = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Financial identity not found"));
+        FinancialIdentity existing = repository.findByUserId(userId)
+                .orElseThrow(() ->
+                        new RuntimeException("Financial identity not found for user"));
 
         existing.setIncomeType(incomeType);
         existing.setIncomeStabilityScore(incomeStabilityScore);

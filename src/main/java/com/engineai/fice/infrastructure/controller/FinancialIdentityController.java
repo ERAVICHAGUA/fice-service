@@ -44,18 +44,20 @@ public class FinancialIdentityController {
                 "principal", auth != null ? auth.getName() : null
         );
     }
-    @PutMapping("/{id}")
+
+    @PutMapping("/{userId}")
     public ResponseEntity<FinancialIdentity> update(
-            @PathVariable Long id,
+            @PathVariable Long userId,
             @RequestBody UpdateFinancialIdentityRequest request
     ) {
-        FinancialIdentity updated = service.update(
-                id,
+        FinancialIdentity updated = service.updateByUserId(
+                userId,
                 request.getIncomeType(),
                 request.getIncomeStabilityScore(),
                 request.getRiskTolerance(),
                 request.getDecisionStyle()
         );
+
         return ResponseEntity.ok(updated);
     }
 }
